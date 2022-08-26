@@ -37,12 +37,12 @@ def profile(request, username):
     author = get_object_or_404(
         User.objects.prefetch_related('posts'),
         username=username
-         )
+    )
     page_obj = get_page(request, author.posts.all())
     context = {
         'author': author,
         'page_obj': page_obj,
-        }
+    }
     return render(request, 'posts/profile.html', context)
 
 

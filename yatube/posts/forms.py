@@ -13,5 +13,4 @@ class PostForm(forms.ModelForm):
             'text': 'Текст нового поста',
             'group': 'Группа, к которой будет относиться пост'
         }
-        widgets = {'text': forms.Textarea}
         fields = ('text', 'group')

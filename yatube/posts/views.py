@@ -1,11 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from posts.models import Post, Group
+from posts.models import Post, Group, User
 from django.core.paginator import Paginator
 from posts.forms import PostForm
 from django.contrib.auth.decorators import login_required
 
 
-POSTS_PER_PAGE = 10
+POSTS_PER_PAGE = 2
 
 
 def get_page(request, post_list):
@@ -37,8 +37,7 @@ def group_posts(request, slug):
 
 
 def profile(request, username):
-    author = get_object_or_404(
-        Post, username=username)
+    author = get_object_or_404(User, username=username)
     page_obj = get_page(request, author.posts.all())
     context = {
         'author': author,
@@ -49,8 +48,7 @@ def profile(request, username):
 
 def post_detail(request, post_id):
     post = get_object_or_404(
-        Post, id=post_id
-    )
+        Post, id=post_id)
     context = {
         'post': post,
     }
@@ -62,10 +60,10 @@ def post_create(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            user = request.user
-            form.instance.author = user
-            form.save()
-            return redirect('posts:profile', username=user.username)
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('posts:profile', post.author)
         context = {'form': form}
         return render(request, 'posts/post_create.html', context)
     form = PostForm()

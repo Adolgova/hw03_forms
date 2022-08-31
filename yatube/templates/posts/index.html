@@ -5,7 +5,8 @@
     <article>
       <ul>
         <li>
-          Автор: {{ post.author.get_full_name }}<a href="{% url 'posts:profile' post.author %}">
+          Автор: {{ post.author.get_full_name }} <a 
+            href="{% url 'posts:profile' post.author %}">
           все посты пользователя</a>
         </li>
         <li>
@@ -13,11 +14,13 @@
         </li>              
       </ul>    
       <p>{{ post.text }}</p>
-      <a href="{% url 'posts:post_detail' post.id %}">подробная информация
+      <a href="{% url 'posts:post_detail' post.id %}">
+        подробная информация
       <a/>
     </article>
       {% if post.group %}
-        <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
+        <a href="{% url 'posts:group_list' post.group.slug %}"
+          >все записи группы</a>
       {% endif %}
     {% if not forloop.last %}
       <hr>

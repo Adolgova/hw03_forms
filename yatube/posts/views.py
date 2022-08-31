@@ -1,11 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from posts.models import Post, Group, User
 from django.core.paginator import Paginator
-from posts.forms import PostForm
 from django.contrib.auth.decorators import login_required
+from posts.forms import PostForm
+from posts.models import Post, Group, User
 
-
-POSTS_PER_PAGE = 2
+POSTS_PER_PAGE = 10
 
 
 def get_page(request, post_list):
@@ -15,8 +14,7 @@ def get_page(request, post_list):
 
 
 def index(request):
-    post_list = Post.objects.order_by('-pub_date').select_related(
-        'author', 'group')
+    post_list = Post.objects.select_related('author', 'group')
     page_obj = get_page(request, post_list)
     context = {
         'page_obj': page_obj,
@@ -26,8 +24,7 @@ def index(request):
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    posts = Post.objects.filter(group=group).order_by(
-        '-pub_date').select_related('author', 'group')
+    posts = Post.objects.filter(group=group).select_related('author', 'group')
     page_obj = get_page(request, posts)
     context = {
         'group': group,
@@ -47,8 +44,7 @@ def profile(request, username):
 
 
 def post_detail(request, post_id):
-    post = get_object_or_404(
-        Post, id=post_id)
+    post = get_object_or_404(Post, id=post_id)
     context = {
         'post': post,
     }

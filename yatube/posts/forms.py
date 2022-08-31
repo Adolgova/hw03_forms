@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from posts.models import Post
 
 
 class PostForm(forms.ModelForm):
@@ -14,3 +14,4 @@ class PostForm(forms.ModelForm):
             'group': 'Группа, к которой будет относиться пост'
         }
         fields = ('text', 'group')
+        ordering = ['-pub_date']

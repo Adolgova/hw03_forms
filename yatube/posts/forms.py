@@ -14,4 +14,3 @@ class PostForm(forms.ModelForm):
             'group': 'Группа, к которой будет относиться пост'
         }
         fields = ('text', 'group')
-        ordering = ['-pub_date']

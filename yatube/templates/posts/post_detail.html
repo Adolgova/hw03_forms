@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{{ post.text|truncatechars:30 }}
+{% block title %}Пост {{ post.text|truncatechars:30 }}
 {% endblock %}
 {% block content %}
   <div class="row">
@@ -20,15 +20,15 @@
         Всего постов автора:  <span>{{ post.author.posts.count }}<span>
         </li>
         <li class="list-group-item"><a href="{% url 'posts:profile' post.author %}">
-        Все посты пользователя</a>
-        {% if post.author ==  request.user %}
-        <a href="{% url 'posts:post_edit' post.pk %}">редактировать</a>
-        {% endif %}
+        все посты пользователя</a>
         </li>
       </ul>
     </aside>
     <article class="col-12 col-md-9">
     {{ post.text|linebreaks }}
+    {% if post.author ==  request.user %}
+    <a class="btn btn-primary" href="{% url 'posts:post_edit' post.pk %}">редактировать запись</a>
+    {% endif %}
     </article>
   </div>
 {% endblock %}
